@@ -16,6 +16,8 @@ $lastName = "Borisova";
 $fullName = $name . ' ' . $lastName;
 echo "<br>";
 echo $fullName; 
+echo "<br>";
+echo $age;
 
 $word = 'lower_case';
 $word = strtoupper($word);
