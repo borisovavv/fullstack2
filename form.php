@@ -1,7 +1,7 @@
 <?php
 
-$user = 'root';
-$pdo = new Pdo('mysql:dbname=fullstack2;host=127.0.0.1', $user);
+$myUser = 'root';
+$pdo = new Pdo('mysql:dbname=fullstack2;host=127.0.0.1', $myUser);
 
 $name = $_POST['name'];
 $login = $_POST['login'];

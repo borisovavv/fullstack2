@@ -7,13 +7,19 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
     <title>Hello, world!</title>
+        <style>
+            .btn-danger {
+                border-radius: 100px;
+                padding: 2px 12px 4px 12px;
+            }
+        </style>
   </head>
   <body>
      <div class = 'container mt-5'>
 <?php
 
-$user = 'root';
-$pdo = new Pdo('mysql:dbname=fullstack2;host=127.0.0.1', $user);
+$myUser = 'root';
+$pdo = new Pdo('mysql:dbname=fullstack2;host=127.0.0.1', $myUser);
 
 $query = "SELECT * FROM users";
 $res = $pdo->query($query);
@@ -32,7 +38,8 @@ echo "
             <th>id</th>
             <th>Логин</th>        
             <th>Имя</th> 
-            <th>id города</th>     
+            <th>id города</th>    
+            <th></th> 
         </tr>
     </thead>
     <tbody>
@@ -44,15 +51,28 @@ foreach ($users as $user) {
     // } else {
     //     $city = '-';
     // }
-
+    
+    // Короткий аналог условия
     $city = $user['city_id'] ? $user['city_id'] : '-';
 
     echo "
         <tr>
             <td>{$user['id']}</td>
             <td>{$user['login']}</td>
-            <td>{$user['name']}</td>
+            <td>
+                <!-- Передача get параметров-->  
+                <a href='pages/user.php?id={$user['id']}'>
+                    {$user['name']}
+                </a>
+            </td>
             <td>{$city}</td>
+            <td class='text-center'>
+            <form method='post' action='actions/del_user.php'>           
+                <!-- Для удаления пользователя в соответствии с его id-->   
+                <input type='hidden' name='id' value='{$user['id']}'> 
+                <button type='submit' class='btn btn-danger'>x</button>
+            </form>
+        </td>
         </tr>
     ";
 }
@@ -66,8 +86,8 @@ $null = NULL;
         <input class = "form-control mb-2" placeholder="Имя" name = 'name'>
         <input class = "form-control mb-2" placeholder="Логин" name = 'login'>
         <input class = "form-control mb-2" type="password" placeholder="Пароль" name = 'password'>
-        <select class = "form-control mb-2" name = 'city_id'>
-            <option value = '<?=NULL?>' selected disabled>-- Выберите город --</option>
+        <select class="form-control mb-2" name="city_id">
+                <option selected disabled>-- Выберите город --</option>
             <?php
                 foreach ($cities as $city) {
                     echo "<option value='{$city['id']}'>{$city['name']}</option>";
