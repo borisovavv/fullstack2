@@ -19,4 +19,4 @@ $res->execute([
     ':city_id' => $city_id,
 ]);
 
-header('Location: index.php');
+header('Location: index.php'); 
