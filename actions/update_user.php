@@ -5,18 +5,20 @@ session_start();
 $userId = $_POST['id'];
 $name = $_POST['name'];
 $login = $_POST['login'];
+$cityId = $_POST['city_id'];
 
 $myUser = 'root';
 $pdo = new Pdo('mysql:dbname=fullstack2;host=127.0.0.1', $myUser);
 
 //Запрос с "заглушками" для безопасной передачи данных в базу
-$query = "UPDATE users SET name = :name, login = :login WHERE id = :id";
+$query = "UPDATE users SET name = :name, city_id = :city_id, login = :login WHERE id = :id";
 $res = $pdo->prepare($query);
 //Выполнение запроса
 $status = $res->execute([
     ':id' => $userId,
     ':login' => $login,
     ':name' => $name,   
+    ':city_id' => $cityId, 
 ]);
 
 if (!$status) {

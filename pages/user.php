@@ -1,35 +1,8 @@
 <?php
-session_start();
-?>
 
-<!doctype html>
-<html lang="ru">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-
-    <title>Hello, world!</title>
-        <style>
-            .btn-danger {
-                border-radius: 100px;
-                padding: 2px 12px 4px 12px;
-            }
-        </style>
-  </head>
-  <body>
-     <div class = 'container mt-5'>
-<?php
+require '../templates/header.php';
 
 $userId = $_GET['id'];
-
-$myUser = 'root';
-$pdo = new Pdo('mysql:dbname=fullstack2;host=127.0.0.1', $myUser);
-
-// ПОПЫТАТЬСЯ НАЙТИ ПОЛЬЗОВАТЕЛЯ В БАЗЕ
-// ЕСЛИ ЕСТЬ, ВЫВЕСТИ ЕГО ЛОГИН
-// ЕСЛИ НЕТ, ВЫВЕСТИ СООБЩЕНИЕ "ПОЛЬЗОВАТЕЛЬ НЕ НАЙДЕН"
 
 //Запрос с "заглушками" для безопасной передачи данных в базу
 $query = "SELECT * FROM users WHERE id = :id";
@@ -56,7 +29,7 @@ if (isset($_SESSION['error'])) {
     unset($_SESSION['error']); // Очищает сессию, чтобы сообщение об ошибке отобразилось один раз
 } else if (isset($_SESSION['success'])) {
     echo "
-    <div class='alert alert-success text-center' role='alert'>
+    <div id='alertSuccess' class='alert alert-success text-center' role='alert'>
     Изменения сохранены!
     </div>";
     unset($_SESSION['success']);
@@ -88,10 +61,18 @@ if (isset($_SESSION['error'])) {
     </form>
     <?php
     } else {
-        echo '<div class="alert alert-warning" role="alert"> Пользователь не найден';
+        echo '<div class="alert alert-warning" role="alert"> Пользователь не найден </div>';
     }
     ?>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-</body>
-</html> 
+    
+    <script>
+        $(document).ready(function() {
+            setTimeout(function(){
+                $('#alertSuccess').fadeOut()
+            }, 3000)
+        })
+    </script>
+
+<?php
+
+require '../templates/footer.php';
